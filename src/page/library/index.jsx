@@ -25,6 +25,12 @@ function getFontminData(obj){
 	}
 	return result;
 }
+function download(url,name){
+	const a = document.createElement('a');
+	a.href = url;
+	a.download = `${name}.zip`;
+	a.click();
+}
 export default function Library({match}){
 	let [data,setData] = useState({}),
 		[config,setConfig] = useState([]),
@@ -32,14 +38,14 @@ export default function Library({match}){
 		[prefix,setPrefix] = useState(''),
 		[loading,setloading] = useState(true),
 		{globalState,globalDispatch} = useContext(Context);
-	const getData = useCallback(()=>{
+	const getData = ()=>{
 		apiLibraryById({},match.params.id).then(({data:res})=>{
 			if(res.rcode === 0){
 				setData(res.data);
 				getConfig(res.data.config);
 			}
 		});
-	},[]);
+	};
 	const getConfig = useCallback((url)=>{
 		apiGetConfig({},url).then(({data})=>{
 			setConfig(data.list);
@@ -71,7 +77,7 @@ export default function Library({match}){
 			fontName:data.name
 		}).then(({data:res})=>{
 			if(res.rcode === 0){
-				window.open(res.zip);
+				download(res.zip,data.name);
 				globalDispatch(actionClearIcon());
 			}else{
 				throw new Error(JSON.stringify(res));
@@ -113,7 +119,7 @@ export default function Library({match}){
 					</div>
 					<div className={style.btn}>
 						<Badge count={globalState.fontminIconCount} onClick={handleCreateFontmin}>
-							<Button type={'primary'}>生成字体</Button>
+							<Button type={'primary'}>点击生成字体</Button>
 						</Badge>
 					</div>
 					<div className={style.btn}><Button type={'link'} href={data.zip} icon={<DownloadOutlined />}>字体包</Button></div>

@@ -71,7 +71,7 @@ export default function Update({data}){
         });
     },[uploadData]);
     const handleBeforeUpload = useCallback((file)=>{
-        const isZIP = file.type === 'application/zip';
+        const isZIP = ['application/zip','application/x-zip','application/x-zip-compressed'].indexOf(file.type) > -1 ? true : false;
         if(!isZIP){
             // window.message.error(MSG_ERROR_NOT_ZIP)
             window.message.error('文件必须是zip');
@@ -132,7 +132,8 @@ export default function Update({data}){
                         >
                             <Upload
                                 name="zip"
-                                action={'http://localhost:8090/upload'}
+                                action={'//node.guaiyu.online/upload'}
+                                // action={'//192.168.10.17:8090/upload'}
                                 headers={{
                                     'authorization':'authorization-text',
                                     'X-Requested-With':null,

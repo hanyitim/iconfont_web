@@ -25,7 +25,8 @@ export default function IconList({data,keyword}){
 					<li key={index} className={style.iconItem} >
 						<IconItem data = {item} />
 						<ul className={style.operation}>
-							<li data-opera='copy' data-name={item.className}>复制</li>
+							<li data-opera='copy' data-name={item.className}>复制 className</li>
+							<li data-opera='copyContent' >复制 <span dangerouslySetInnerHTML={{__html:item.htmlContent}}></span></li>
 							<li data-opera={isAppend ? 'remove' :'append'} data-name={item.className} data-json={JSON.stringify(item)}>
 								{
 									isAppend ? '移除' :'添加'
@@ -39,14 +40,24 @@ export default function IconList({data,keyword}){
 		return html;
 	},[globalState.fontmin,data,keyword]);
 	const handleOpera = useCallback((event)=>{
-		let dataset = event.target.dataset,
-			{opera,name,json} = dataset;
+		let target = event.target,
+			dataset = target.dataset,
+			{opera,name,json} = dataset,
+			htmlContent='';
 		switch(opera){
 			case 'copy':
 				copyStr(name).then(()=>{
 					window.message.success(`${name} copied 🎉`);
 				}).catch(()=>{
 					window.message.error(`${name} fail`);
+				});
+				break;
+			case 'copyContent':
+				htmlContent = target.children[0].innerText;
+				copyStr(htmlContent).then(()=>{
+					window.message.success(`${htmlContent} copied 🎉`);
+				}).catch(()=>{
+					window.message.error(`${htmlContent} fail`);
 				});
 				break;
 			case 'append':

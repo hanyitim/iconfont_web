@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import qs from 'qs';
-// const HOST = '//node.guaiyu.online';
-const HOST = '//192.168.10.17:8090';
+const HOST = '//node.guaiyu.online';
+// const HOST = '//192.168.10.17:8090';
 
 /* devblock:start */
 // import MockAdapter from 'axios-mock-adapter';
@@ -30,7 +30,7 @@ function requireFactory(requireOption){
             break;
         }
         if(subUrl){
-            requireOption.url = requireOption.url.replace('$path',subUrl);
+            requireOption.url = subUrl;
         }
         // console.log(requireOption);
         return Axios({
@@ -56,7 +56,7 @@ export const apiLibraryList = requireFactory({
 });
 
 export const apiLibraryById = requireFactory({
-    url: `${HOST}/api/library/$path`,
+    baseURL: `${HOST}/api/library/`,
     method: 'get',
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -72,7 +72,7 @@ export const apiLibraryDelete = requireFactory({
 });
 
 export const apiLibraryUpdate = requireFactory({
-    url: `${HOST}/api/library/update/$path`,
+    baseURL: `${HOST}/api/library/update/`,
     method: 'post',
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -80,7 +80,6 @@ export const apiLibraryUpdate = requireFactory({
 });
 
 export const apiGetConfig = requireFactory({
-    url: '$path',
     method: 'get',
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

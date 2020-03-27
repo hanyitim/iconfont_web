@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import style from './index.less';
 
-
 export default function Icon({data}){
 	return (
 		<div className={style.wrap}>
@@ -10,6 +9,7 @@ export default function Icon({data}){
 				<i className={`${data.className}`}></i>
 			</div>
 			<div className={style.name}>{data.className}</div>
+			<div className={style.content} dangerouslySetInnerHTML={{__html:data.htmlContent}}></div>
 		</div>
 	);
 }

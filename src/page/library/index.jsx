@@ -85,7 +85,7 @@ export default function Library({match}){
 			setloading(false);
 		}).catch((err)=>{
 			setloading(false);
-			window.message.fail(err.msg);
+			window.message.error(err.msg);
 		});
 	},[globalState.fontmin,data,prefix]);
 	useEffect(()=>{
